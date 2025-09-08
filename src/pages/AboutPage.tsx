@@ -7,6 +7,10 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import SchoolIcon from "@mui/icons-material/School";
 import WorkIcon from "@mui/icons-material/Work";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import CodeIcon from "@mui/icons-material/Code";
+import StorageIcon from "@mui/icons-material/Storage";
+import BrushIcon from "@mui/icons-material/Brush";
+import { Tooltip } from "@mui/material";
 
 export function AboutPage() {
   return (
@@ -96,38 +100,54 @@ export function AboutPage() {
             High level experience in web design and development knowledge,
             producing quality work with modern technologies and best practices.
           </Typography>
-
-          {/* GitHub 按钮 */}
-          <Box
-            component="a"
-            href="https://github.com/theRealBurgerKing"
-            target="_blank"
-            rel="noopener noreferrer"
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              width: "48px",
-              height: "48px",
-              color: "black",
-              borderRadius: "50%",
-              textDecoration: "none",
-              mx: { xs: "auto", md: 0 },
-              mt: 2,
-              mb: 6,
-              "&:hover": {
-                color: "#8b4513",
-              },
-            }}
-          >
-            <GitHubIcon
+          {/* Github按钮 */}
+          <Box>
+            <Tooltip
+              title="https://github.com/theRealBurgerKing"
+              arrow
+              placement="top"
               sx={{
-                fontSize: "40px",
-                display: "block",
+                "& .MuiTooltip-tooltip": {
+                  backgroundColor: "#333",
+                  color: "white",
+                  fontSize: "12px",
+                },
+                "& .MuiTooltip-arrow": {
+                  color: "#333",
+                },
               }}
-            />
+            >
+              <Box
+                component="a"
+                href="https://github.com/theRealBurgerKing"
+                target="_blank"
+                rel="noopener noreferrer"
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "48px",
+                  height: "48px",
+                  color: "black",
+                  borderRadius: "50%",
+                  textDecoration: "none",
+                  mx: { xs: "auto", md: 0 },
+                  mt: 2,
+                  mb: 6,
+                  "&:hover": {
+                    color: "#8b4513",
+                  },
+                }}
+              >
+                <GitHubIcon
+                  sx={{
+                    fontSize: "40px",
+                    display: "block",
+                  }}
+                />
+              </Box>
+            </Tooltip>
           </Box>
-
           <Button
             sx={{
               backgroundColor: "#8b4513",
@@ -184,7 +204,6 @@ export function AboutPage() {
           />
         </Box>
       </Box>
-
       {/* Qualification 块 */}
       <Box
         sx={{
@@ -279,7 +298,7 @@ export function AboutPage() {
           />
 
           {/* Timeline Items */}
-          {/* Computer Engineer */}
+          {/* First one */}
           <Box
             sx={{
               display: "flex",
@@ -346,7 +365,7 @@ export function AboutPage() {
             <Box sx={{ flex: 1 }} />
           </Box>
 
-          {/* Web Design */}
+          {/* Second one */}
           <Box
             sx={{
               display: "flex",
@@ -413,7 +432,7 @@ export function AboutPage() {
           </Box>
         </Box>
       </Box>
-      {/* Contact Me 块 */}
+      {/* Tech Stack 块 */}
       <Box
         sx={{
           width: "60vw",
@@ -423,6 +442,275 @@ export function AboutPage() {
           p: { xs: 4, md: 6 },
           boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)",
           maxWidth: "1300px",
+        }}
+      >
+        {/* Section Header */}
+        <Typography
+          variant="h2"
+          sx={{
+            fontSize: "4rem",
+            fontWeight: "bold",
+            color: "#333",
+            mb: 1,
+          }}
+        >
+          Tech Stack
+        </Typography>
+        <Typography
+          sx={{
+            fontSize: "1.2rem",
+            color: "#666",
+            mb: 6,
+          }}
+        >
+          Technologies I work with
+        </Typography>
+
+        {/* Tech Categories */}
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: { xs: "1fr", md: "repeat(3, 1fr)" },
+            gap: 4,
+            maxWidth: "1000px",
+            mx: "auto",
+          }}
+        >
+          {/* Frontend */}
+          <Box
+            sx={{
+              textAlign: "center",
+              p: 3,
+              borderRadius: "12px",
+              backgroundColor: "#f8f9fa",
+              transition: "all 0.3s ease",
+              "&:hover": {
+                transform: "translateY(-5px)",
+                boxShadow: "0 8px 25px rgba(139, 69, 19, 0.1)",
+              },
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                width: "60px",
+                height: "60px",
+                backgroundColor: "#8b4513",
+                borderRadius: "50%",
+                mx: "auto",
+                mb: 3,
+              }}
+            >
+              <CodeIcon sx={{ fontSize: "2rem", color: "white" }} />
+            </Box>
+            <Typography
+              sx={{
+                fontSize: "1.4rem",
+                fontWeight: "600",
+                color: "#333",
+                mb: 2,
+              }}
+            >
+              Frontend
+            </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 1,
+                alignItems: "center",
+              }}
+            >
+              {[
+                "React",
+                "TypeScript",
+                "JavaScript",
+                "Next.js",
+                "Tailwind CSS",
+                "Material-UI",
+              ].map((tech) => (
+                <Box
+                  key={tech}
+                  sx={{
+                    px: 2,
+                    py: 0.5,
+                    backgroundColor: "white",
+                    borderRadius: "20px",
+                    fontSize: "0.9rem",
+                    color: "#666",
+                    border: "1px solid #e0e0e0",
+                    transition: "all 0.2s ease",
+                    "&:hover": {
+                      backgroundColor: "#8b4513",
+                      color: "white",
+                      borderColor: "#8b4513",
+                    },
+                  }}
+                >
+                  {tech}
+                </Box>
+              ))}
+            </Box>
+          </Box>
+
+          {/* Backend */}
+          <Box
+            sx={{
+              textAlign: "center",
+              p: 3,
+              borderRadius: "12px",
+              backgroundColor: "#f8f9fa",
+              transition: "all 0.3s ease",
+              "&:hover": {
+                transform: "translateY(-5px)",
+                boxShadow: "0 8px 25px rgba(139, 69, 19, 0.1)",
+              },
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                width: "60px",
+                height: "60px",
+                backgroundColor: "#8b4513",
+                borderRadius: "50%",
+                mx: "auto",
+                mb: 3,
+              }}
+            >
+              <StorageIcon sx={{ fontSize: "2rem", color: "white" }} />
+            </Box>
+            <Typography
+              sx={{
+                fontSize: "1.4rem",
+                fontWeight: "600",
+                color: "#333",
+                mb: 2,
+              }}
+            >
+              Backend
+            </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 1,
+                alignItems: "center",
+              }}
+            >
+              {["Node.js", "Python", "PostgreSQL"].map((tech) => (
+                <Box
+                  key={tech}
+                  sx={{
+                    px: 2,
+                    py: 0.5,
+                    backgroundColor: "white",
+                    borderRadius: "20px",
+                    fontSize: "0.9rem",
+                    color: "#666",
+                    border: "1px solid #e0e0e0",
+                    transition: "all 0.2s ease",
+                    "&:hover": {
+                      backgroundColor: "#8b4513",
+                      color: "white",
+                      borderColor: "#8b4513",
+                    },
+                  }}
+                >
+                  {tech}
+                </Box>
+              ))}
+            </Box>
+          </Box>
+
+          {/* Tools & Design */}
+          <Box
+            sx={{
+              textAlign: "center",
+              p: 3,
+              borderRadius: "12px",
+              backgroundColor: "#f8f9fa",
+              transition: "all 0.3s ease",
+              "&:hover": {
+                transform: "translateY(-5px)",
+                boxShadow: "0 8px 25px rgba(139, 69, 19, 0.1)",
+              },
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                width: "60px",
+                height: "60px",
+                backgroundColor: "#8b4513",
+                borderRadius: "50%",
+                mx: "auto",
+                mb: 3,
+              }}
+            >
+              <BrushIcon sx={{ fontSize: "2rem", color: "white" }} />
+            </Box>
+            <Typography
+              sx={{
+                fontSize: "1.4rem",
+                fontWeight: "600",
+                color: "#333",
+                mb: 2,
+              }}
+            >
+              Tools & Design
+            </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 1,
+                alignItems: "center",
+              }}
+            >
+              {["Git", "AWS", "Figma"].map((tech) => (
+                <Box
+                  key={tech}
+                  sx={{
+                    px: 2,
+                    py: 0.5,
+                    backgroundColor: "white",
+                    borderRadius: "20px",
+                    fontSize: "0.9rem",
+                    color: "#666",
+                    border: "1px solid #e0e0e0",
+                    transition: "all 0.2s ease",
+                    "&:hover": {
+                      backgroundColor: "#8b4513",
+                      color: "white",
+                      borderColor: "#8b4513",
+                    },
+                  }}
+                >
+                  {tech}
+                </Box>
+              ))}
+            </Box>
+          </Box>
+        </Box>
+      </Box>
+      {/* ===========Contact Me 块 ===========*/}
+      <Box
+        sx={{
+          width: "60vw",
+          textAlign: "center",
+          backgroundColor: "#fff",
+          borderRadius: "16px",
+          p: { xs: 4, md: 6 },
+          boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)",
+          maxWidth: "1300px",
+          mb: 30,
         }}
       >
         {/* Section Header */}
