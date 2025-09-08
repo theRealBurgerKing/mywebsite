@@ -1,4 +1,5 @@
 import { Box, Typography, Button } from "@mui/material";
+import { useEffect, useRef } from "react";
 import avatarImage from "../assets/avatar.jpg";
 import PhoneIcon from "@mui/icons-material/Phone";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
@@ -13,20 +14,73 @@ import BrushIcon from "@mui/icons-material/Brush";
 import { Tooltip } from "@mui/material";
 
 export function AboutPage() {
+  const containerRef = useRef(null);
+  const sectionsRef = useRef([]);
+
+  const setSectionRef = (index) => (el) => {
+    sectionsRef.current[index] = el;
+  };
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    let isScrolling = false;
+    let currentSection = 0;
+
+    const handleWheel = (e) => {
+      if (isScrolling) return;
+
+      e.preventDefault();
+      isScrolling = true;
+
+      const sections = sectionsRef.current.filter(Boolean);
+      const delta = e.deltaY;
+
+      if (delta > 0 && currentSection < sections.length - 1) {
+        // 向下滚动
+        currentSection++;
+      } else if (delta < 0 && currentSection > 0) {
+        // 向上滚动
+        currentSection--;
+      }
+
+      // 滚动到目标区块
+      sections[currentSection]?.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+
+      // 防止过快滚动
+      setTimeout(() => {
+        isScrolling = false;
+      }, 1000);
+    };
+
+    container.addEventListener("wheel", handleWheel, { passive: false });
+
+    return () => {
+      container.removeEventListener("wheel", handleWheel);
+    };
+  }, []);
+
   return (
     <Box
+      ref={containerRef}
       sx={{
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        minHeight: "100%",
+        minHeight: "100vh",
         px: { xs: 3, sm: 6, md: 8 },
         py: 4,
-        gap: 30,
+        gap: 0,
+        overflow: "hidden",
       }}
     >
       {/* 主要介绍块 */}
       <Box
+        ref={setSectionRef(0)}
         sx={{
           display: "flex",
           alignItems: "center",
@@ -37,8 +91,10 @@ export function AboutPage() {
           borderRadius: "16px",
           p: { xs: 4, md: 6 },
           mt: 30,
+          mb: "100vh",
           boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)",
           maxWidth: "1300px",
+          minHeight: "60vh",
         }}
       >
         {/* 左侧文字内容 */}
@@ -204,8 +260,10 @@ export function AboutPage() {
           />
         </Box>
       </Box>
+
       {/* Qualification 块 */}
       <Box
+        ref={setSectionRef(1)}
         sx={{
           width: "60vw",
           textAlign: "center",
@@ -214,6 +272,8 @@ export function AboutPage() {
           p: { xs: 4, md: 6 },
           boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)",
           maxWidth: "1300px",
+          mb: "100vh",
+          minHeight: "60vh",
         }}
       >
         {/* Section Header */}
@@ -432,8 +492,10 @@ export function AboutPage() {
           </Box>
         </Box>
       </Box>
+
       {/* Tech Stack 块 */}
       <Box
+        ref={setSectionRef(2)}
         sx={{
           width: "60vw",
           textAlign: "center",
@@ -442,6 +504,8 @@ export function AboutPage() {
           p: { xs: 4, md: 6 },
           boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)",
           maxWidth: "1300px",
+          mb: "100vh",
+          minHeight: "60vh",
         }}
       >
         {/* Section Header */}
@@ -700,8 +764,10 @@ export function AboutPage() {
           </Box>
         </Box>
       </Box>
+
       {/* ===========Contact Me 块 ===========*/}
       <Box
+        ref={setSectionRef(3)}
         sx={{
           width: "60vw",
           textAlign: "center",
@@ -711,6 +777,7 @@ export function AboutPage() {
           boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)",
           maxWidth: "1300px",
           mb: 30,
+          minHeight: "60vh",
         }}
       >
         {/* Section Header */}

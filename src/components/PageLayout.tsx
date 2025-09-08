@@ -28,11 +28,25 @@ export function PageLayout({
             overflow: "auto",
           }}
         >
-          <Navigation currentPage={currentPage} onPageChange={onPageChange} />
+          {/* 固定在顶部的导航栏 */}
+          <Box
+            sx={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              right: 0,
+              zIndex: 1000,
+              backgroundColor: "#deb887",
+            }}
+          >
+            <Navigation currentPage={currentPage} onPageChange={onPageChange} />
+          </Box>
 
+          {/* 主要内容区域，添加顶部padding避免被navbar遮挡 */}
           <Box
             sx={{
               flex: 1,
+              paddingTop: "80px", // 根据你的navbar高度调整这个值
             }}
           >
             {children}
