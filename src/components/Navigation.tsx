@@ -1,4 +1,4 @@
-// components/Naagiinotv.tsx;
+// components/Navigation.tsx
 import { Box, Button } from "@mui/material";
 
 interface NavigationProps {
@@ -18,7 +18,7 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
       sx={{
         display: "flex",
         justifyContent: "center",
-        padding: "20px",
+        p: "20px",
         gap: "20px",
         flexShrink: 0,
       }}
@@ -30,10 +30,17 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
           sx={{
             fontSize: "1.2rem",
             color: currentPage === key ? "#8b4513" : "#a0522d",
-            fontWeight: currentPage === key ? "bold" : "normal",
+            fontWeight: "normal",
             textTransform: "none",
+            border:
+              currentPage === key
+                ? "2px solid #8b4513"
+                : "2px solid transparent",
+            borderRadius: "8px",
+            padding: "8px 16px",
             "&:hover": {
               backgroundColor: "rgba(139, 69, 19, 0.1)",
+              border: "2px solid #a0522d",
             },
           }}
         >

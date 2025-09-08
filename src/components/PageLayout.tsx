@@ -16,30 +16,27 @@ export function PageLayout({
   return (
     <>
       <CssBaseline />
-      <Box
-        sx={{
-          width: "100vw",
-          height: "100vh",
-          background: "#f5f5dc",
-          fontFamily: "system-ui, -apple-system, sans-serif",
-          display: "flex",
-          flexDirection: "column",
-          overflow: "hidden",
-        }}
-      >
-        <Navigation currentPage={currentPage} onPageChange={onPageChange} />
-
+      <Box sx={{ overflow: "auto" }}>
         <Box
           sx={{
+            width: "100vw",
+            height: "100vh",
+            background: "#f5f5dc",
+            fontFamily: "system-ui, -apple-system, sans-serif",
             display: "flex",
-            alignItems: "center",
-            justifyContent: currentPage === "home" ? "flex-start" : "center",
-            paddingLeft: currentPage === "home" ? "60px" : "0px",
-            flex: 1,
-            overflow: "hidden",
+            flexDirection: "column",
+            overflow: "auto",
           }}
         >
-          {children}
+          <Navigation currentPage={currentPage} onPageChange={onPageChange} />
+
+          <Box
+            sx={{
+              flex: 1,
+            }}
+          >
+            {children}
+          </Box>
         </Box>
       </Box>
     </>

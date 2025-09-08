@@ -2,7 +2,6 @@
 import { useState, useEffect } from "react";
 import { Box } from "@mui/material";
 import { TypewriterText } from "../components/TypewriterText";
-import type { plPL } from "@mui/material/locale";
 
 export function HomePage() {
   const [showSecondLine, setShowSecondLine] = useState(false);
@@ -19,22 +18,32 @@ export function HomePage() {
   }, []);
 
   return (
-    <Box sx={{ pl: "5rem" }}>
-      <TypewriterText
-        text="Hey There"
-        speed={50}
-        variant="h1"
-        showCursor={!firstLineComplete}
-      />
-
-      {showSecondLine && (
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "flex-start",
+        pl: "100px",
+        height: "100%",
+      }}
+    >
+      <Box sx={{ pl: "5rem" }}>
         <TypewriterText
-          text="I'm Haotian Wang"
+          text="Hey There"
           speed={50}
-          variant="h2"
-          sx={{ marginBottom: "1rem" }}
+          variant="h1"
+          showCursor={!firstLineComplete}
         />
-      )}
+
+        {showSecondLine && (
+          <TypewriterText
+            text="I'm Haotian Wang"
+            speed={50}
+            variant="h2"
+            sx={{ marginBottom: "1rem" }}
+          />
+        )}
+      </Box>
     </Box>
   );
 }
