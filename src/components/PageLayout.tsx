@@ -42,11 +42,11 @@ export function PageLayout({
             <Navigation currentPage={currentPage} onPageChange={onPageChange} />
           </Box>
 
-          {/* 主要内容区域，添加顶部padding避免被navbar遮挡 */}
+          {/* 主要内容区域*/}
           <Box
             sx={{
               flex: 1,
-              paddingTop: "80px", // 根据你的navbar高度调整这个值
+              paddingTop: "80px",
             }}
           >
             {children}

@@ -16,7 +16,27 @@ import { Tooltip } from "@mui/material";
 export function AboutPage() {
   const containerRef = useRef(null);
   const sectionsRef = useRef([]);
+  // 添加时间计算函数
+  const getTimeAgo = (targetDate) => {
+    const now = new Date();
+    const target = new Date(targetDate);
+    const diffInMs = now - target;
 
+    const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+    const diffInWeeks = Math.floor(diffInDays / 7);
+    const diffInMonths = Math.floor(diffInDays / 30);
+    const diffInYears = Math.floor(diffInDays / 365);
+
+    if (diffInYears > 0) {
+      return `${diffInYears} year${diffInYears > 1 ? "s" : ""} ago`;
+    } else if (diffInMonths > 0) {
+      return `${diffInMonths} month${diffInMonths > 1 ? "s" : ""} ago`;
+    } else if (diffInWeeks > 0) {
+      return `${diffInWeeks} week${diffInWeeks > 1 ? "s" : ""} ago`;
+    } else {
+      return `${diffInDays} day${diffInDays > 1 ? "s" : ""} ago`;
+    }
+  };
   const setSectionRef = (index) => (el) => {
     sectionsRef.current[index] = el;
   };
@@ -764,8 +784,7 @@ export function AboutPage() {
           </Box>
         </Box>
       </Box>
-
-      {/* ===========Contact Me 块 ===========*/}
+      {/* Projects 块 */}
       <Box
         ref={setSectionRef(3)}
         sx={{
@@ -776,8 +795,260 @@ export function AboutPage() {
           p: { xs: 4, md: 6 },
           boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)",
           maxWidth: "1300px",
-          mb: 30,
+          mb: "100vh",
           minHeight: "60vh",
+          // 添加原始CSS动画效果
+          "& .post-module": {
+            position: "relative",
+            zIndex: 1,
+            display: "block",
+            background: "#FFFFFF",
+            minWidth: "270px",
+            height: "470px",
+            boxShadow: "0px 1px 2px 0px rgba(0, 0, 0, 0.15)",
+            transition: "all 0.3s linear 0s",
+          },
+          "& .post-module:hover": {
+            boxShadow: "0px 1px 35px 0px rgba(0, 0, 0, 0.3)",
+          },
+          "& .post-module:hover .thumbnail img": {
+            transform: "scale(1.1)",
+            opacity: 0.6,
+          },
+          // 添加hover时description显示的动画
+          "& .post-module:hover .description": {
+            display: "block !important",
+            height: "auto !important",
+            opacity: "1 !important",
+            animation: "fadeInUp 0.3s ease-out",
+          },
+          "& .post-module .thumbnail": {
+            background: "#000000",
+            height: "400px",
+            overflow: "hidden",
+          },
+          "& .post-module .thumbnail .date": {
+            position: "absolute",
+            top: "20px",
+            right: "20px",
+            zIndex: 1,
+            background: "#8b4513",
+            width: "55px",
+            height: "55px",
+            padding: "12.5px 0",
+            borderRadius: "100%",
+            color: "#FFFFFF",
+            fontWeight: 700,
+            textAlign: "center",
+            boxSizing: "border-box",
+          },
+          "& .post-module .thumbnail .date .day": {
+            fontSize: "18px",
+          },
+          "& .post-module .thumbnail .date .month": {
+            fontSize: "12px",
+            textTransform: "uppercase",
+          },
+          "& .post-module .thumbnail img": {
+            display: "block",
+            width: "120%",
+            transition: "all 0.3s linear 0s",
+          },
+          "& .post-module .post-content": {
+            position: "absolute",
+            bottom: 0,
+            background: "#FFFFFF",
+            width: "100%",
+            padding: "30px",
+            boxSizing: "border-box",
+            transition: "all 0.3s cubic-bezier(0.37, 0.75, 0.61, 1.05) 0s",
+          },
+          "& .post-module .post-content .category": {
+            position: "absolute",
+            top: "-34px",
+            left: 0,
+            background: "#8b4513",
+            padding: "10px 15px",
+            color: "#FFFFFF",
+            fontSize: "14px",
+            fontWeight: 600,
+            textTransform: "uppercase",
+          },
+          "& .post-module .post-content .title": {
+            margin: 0,
+            padding: "0 0 10px",
+            color: "#333333",
+            fontSize: "30px",
+            fontWeight: 700,
+          },
+          "& .post-module .post-content .sub_title": {
+            margin: 0,
+            padding: "0 0 20px",
+            color: "#8b4513",
+            fontSize: "16px",
+            fontWeight: 400,
+          },
+          "& .post-module:hover .post-content": {
+            transform: "translateY(-60px)",
+          },
+          "& .post-module .post-content .description": {
+            display: "none",
+            color: "#666666",
+            fontSize: "14px",
+            lineHeight: "1.8em",
+          },
+          "& .post-module .post-content .post-meta": {
+            margin: "30px 0 0",
+            color: "#999999",
+          },
+          "& .post-module .post-content .post-meta .timestamp": {
+            margin: "0 16px 0 0",
+          },
+          "& .post-module .post-content .post-meta a": {
+            color: "#999999",
+            textDecoration: "none",
+          },
+          "& .hover .post-content .description": {
+            display: "block !important",
+            height: "auto !important",
+            opacity: "1 !important",
+          },
+          // 添加淡入动画
+          "@keyframes fadeInUp": {
+            "0%": {
+              opacity: 0,
+              transform: "translateY(20px)",
+            },
+            "100%": {
+              opacity: 1,
+              transform: "translateY(0)",
+            },
+          },
+        }}
+      >
+        {/* Section Header */}
+        <Typography
+          variant="h2"
+          sx={{
+            fontSize: "4rem",
+            fontWeight: "bold",
+            color: "#333",
+            mb: 1,
+          }}
+        >
+          Projects
+        </Typography>
+        <Typography
+          sx={{
+            fontSize: "1.2rem",
+            color: "#666",
+            mb: 6,
+          }}
+        >
+          My recent work
+        </Typography>
+
+        {/* Cards Container */}
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            gap: 6,
+            justifyContent: "center",
+            flexWrap: "nowrap",
+            maxWidth: "800px",
+            mx: "auto",
+          }}
+        >
+          {/* Card 1 - Normal */}
+          <Box
+            component="a"
+            href="https://github.com/theRealBurgerKing/bigbrain"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="post-module"
+          >
+            {/* Thumbnail */}
+            <Box className="thumbnail">
+              <Box
+                component="img"
+                src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/169963/photo-1429043794791-eb8f26f44081.jpeg"
+              />
+            </Box>
+
+            {/* Post Content */}
+            <Box className="post-content">
+              <Box className="category">Web App</Box>
+              <Typography component="h1" className="title">
+                Bigbrain
+              </Typography>
+              <Typography component="h2" className="sub_title">
+                A gamified online quiz platform
+              </Typography>
+              <Typography component="p" className="description">
+                A full-stack e-commerce solution built with React and Node.js,
+                featuring user authentication, payment processing, and inventory
+                management.
+              </Typography>
+              <Box className="post-meta">
+                <Box component="span" className="timestamp">
+                  🕒 {getTimeAgo("2025-04-05")}
+                </Box>
+              </Box>
+            </Box>
+          </Box>
+
+          {/* Card 2 - Hover state示例 */}
+          <Box
+            component="a"
+            href="https://github.com/theRealBurgerKing/lurkforwork"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="post-module"
+          >
+            {/* Thumbnail */}
+            <Box className="thumbnail">
+              <Box
+                component="img"
+                src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/169963/photo-1429043794791-eb8f26f44081.jpeg"
+              />
+            </Box>
+
+            {/* Post Content */}
+            <Box className="post-content">
+              <Box className="category">Mobile App</Box>
+              <Typography component="h1" className="title">
+                lurkforwork
+              </Typography>
+              <Typography component="h2" className="sub_title">
+                A LinkedIn-inspired social networking platform
+              </Typography>
+              <Typography component="p" className="description">
+                A cross-platform mobile app for task management with real-time
+                collaboration, built using React Native and Firebase.
+              </Typography>
+              <Box className="post-meta">
+                <Box component="span" className="timestamp">
+                  🕒 {getTimeAgo("2025-03-05")}
+                </Box>
+              </Box>
+            </Box>
+          </Box>
+        </Box>
+      </Box>
+      {/* ===========Contact Me 块 ===========*/}
+      <Box
+        ref={setSectionRef(4)}
+        sx={{
+          width: "60vw",
+          textAlign: "center",
+          backgroundColor: "#fff",
+          borderRadius: "16px",
+          p: { xs: 4, md: 6 },
+          boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)",
+          maxWidth: "1300px",
+          mb: 30,
+          minHeight: "35vh",
         }}
       >
         {/* Section Header */}
