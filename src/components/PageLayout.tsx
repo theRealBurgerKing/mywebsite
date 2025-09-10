@@ -7,12 +7,18 @@ interface PageLayoutProps {
   currentPage: string;
   onPageChange: (page: string) => void;
   children: React.ReactNode;
+  // About页面专用的props
+  activeSection?: string;
+  onSectionChange?: (sectionId: string) => void;
+  onScrollToSection?: (sectionId: string) => void;
 }
 
 export function PageLayout({
   currentPage,
   onPageChange,
   children,
+  activeSection,
+  onScrollToSection,
 }: PageLayoutProps) {
   return (
     <>
@@ -65,8 +71,8 @@ export function PageLayout({
                   }}
                 >
                   <LeftSidebar
-                    currentPage={currentPage}
-                    onPageChange={onPageChange}
+                    activeSection={activeSection || "homepage"}
+                    onScrollToSection={onScrollToSection || (() => {})}
                   />
                 </Box>
 

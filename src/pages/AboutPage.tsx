@@ -1,5 +1,5 @@
 import { Box, Typography, Button } from "@mui/material";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import avatarImage from "../assets/avatar.jpg";
 import PhoneIcon from "@mui/icons-material/Phone";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
@@ -13,9 +13,26 @@ import StorageIcon from "@mui/icons-material/Storage";
 import BrushIcon from "@mui/icons-material/Brush";
 import { Tooltip } from "@mui/material";
 
-export function AboutPage() {
+interface AboutPageProps {
+  activeSection: string;
+  onSectionChange: (sectionId: string) => void;
+  onScrollToSectionRef: React.MutableRefObject<((sectionId: string) => void) | null>;
+}
+
+export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef }: AboutPageProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const sectionsRef = useRef<(HTMLElement | null)[]>([]);
+  const [isScrolling, setIsScrolling] = useState(false);
+  
+  // Section配置
+  const sections = [
+    { id: "homepage", label: "Homepage" },
+    { id: "qualification", label: "Qualification" },
+    { id: "tech-stack", label: "Tech Stack" },
+    { id: "projects", label: "Projects" },
+    { id: "contact", label: "Contact" },
+  ];
+  
   // 添加时间计算函数
   const getTimeAgo = (targetDate: string) => {
     const now = new Date();
@@ -43,39 +60,75 @@ export function AboutPage() {
     }
   };
 
+  // 滚动到指定section的函数
+  const scrollToSection = (sectionId: string) => {
+    const sectionIndex = sections.findIndex(section => section.id === sectionId);
+    if (sectionIndex !== -1 && sectionsRef.current[sectionIndex]) {
+      onSectionChange(sectionId);
+      setIsScrolling(true);
+      sectionsRef.current[sectionIndex]?.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+      // 防止过快滚动
+      setTimeout(() => {
+        setIsScrolling(false);
+      }, 1000);
+    }
+  };
+
+  // 将scrollToSection函数设置到ref中，供外部调用
+  useEffect(() => {
+    onScrollToSectionRef.current = scrollToSection;
+    return () => {
+      onScrollToSectionRef.current = null;
+    };
+  }, [onScrollToSectionRef]);
+
+
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
-
-    let isScrolling = false;
-    let currentSection = 0;
 
     const handleWheel = (e: WheelEvent) => {
       if (isScrolling) return;
 
       e.preventDefault();
-      isScrolling = true;
+      setIsScrolling(true);
 
-      const sections = sectionsRef.current.filter(Boolean);
+      const availableSections = sectionsRef.current.filter(Boolean);
       const delta = e.deltaY;
+      
+      // 找到当前活跃section的索引
+      const currentIndex = sections.findIndex(section => section.id === activeSection);
+      let nextIndex = currentIndex;
 
-      if (delta > 0 && currentSection < sections.length - 1) {
+      if (delta > 0 && currentIndex < availableSections.length - 1) {
         // 向下滚动
-        currentSection++;
-      } else if (delta < 0 && currentSection > 0) {
+        nextIndex = currentIndex + 1;
+      } else if (delta < 0 && currentIndex > 0) {
         // 向上滚动
-        currentSection--;
+        nextIndex = currentIndex - 1;
+      } else {
+        // 没有变化，直接返回
+        setIsScrolling(false);
+        return;
+      }
+
+      // 更新活跃section
+      if (sections[nextIndex]) {
+        onSectionChange(sections[nextIndex].id);
       }
 
       // 滚动到目标区块
-      sections[currentSection]?.scrollIntoView({
+      availableSections[nextIndex]?.scrollIntoView({
         behavior: "smooth",
         block: "center",
       });
 
       // 防止过快滚动
       setTimeout(() => {
-        isScrolling = false;
+        setIsScrolling(false);
       }, 1000);
     };
 
@@ -84,7 +137,43 @@ export function AboutPage() {
     return () => {
       container.removeEventListener("wheel", handleWheel);
     };
-  }, []);
+  }, [isScrolling, sections, onSectionChange, activeSection]);
+
+  // 添加滚动监听器来检测当前可见的section
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const handleScroll = () => {
+      if (isScrolling) return; // 如果正在程序化滚动，不更新状态
+
+      const containerRect = container.getBoundingClientRect();
+      const containerCenter = containerRect.top + containerRect.height / 2;
+
+      let closestSection = "";
+      let minDistance = Infinity;
+
+      sectionsRef.current.forEach((section, index) => {
+        if (section) {
+          const sectionRect = section.getBoundingClientRect();
+          const sectionCenter = sectionRect.top + sectionRect.height / 2;
+          const distance = Math.abs(containerCenter - sectionCenter);
+
+          if (distance < minDistance) {
+            minDistance = distance;
+            closestSection = sections[index]?.id || "";
+          }
+        }
+      });
+
+      if (closestSection && closestSection !== activeSection) {
+        onSectionChange(closestSection);
+      }
+    };
+
+    container.addEventListener("scroll", handleScroll);
+    return () => container.removeEventListener("scroll", handleScroll);
+  }, [isScrolling, activeSection, sections, onSectionChange]);
 
   return (
     <Box

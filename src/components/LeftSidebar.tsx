@@ -1,8 +1,8 @@
 import { Box, Typography } from "@mui/material";
-import { useState } from "react";
 
 interface LeftSidebarProps {
-  // 保留接口以便将来扩展
+  activeSection: string;
+  onScrollToSection: (sectionId: string) => void;
 }
 
 const sidebarItems = [
@@ -18,19 +18,10 @@ const isSidebarItemActive = (itemKey: string, activeSection: string) => {
   return itemKey === activeSection;
 };
 
-export function LeftSidebar({}: LeftSidebarProps) {
-  const [activeSection, setActiveSection] = useState("homepage");
-
+export function LeftSidebar({ activeSection, onScrollToSection }: LeftSidebarProps) {
   // Function to scroll to a specific section
   const scrollToSection = (sectionId: string) => {
-    setActiveSection(sectionId);
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-      });
-    }
+    onScrollToSection(sectionId);
   };
 
   return (
@@ -78,7 +69,7 @@ export function LeftSidebar({}: LeftSidebarProps) {
             >
               <Typography
                 sx={{
-                  fontSize: "14px",
+                  fontSize: "17px",
                   fontWeight: isSidebarItemActive(item.key, activeSection) ? "600" : "400",
                   color: isSidebarItemActive(item.key, activeSection) ? "#8b4513" : "#6B4E30",
                   fontFamily: "Arial, sans-serif",
