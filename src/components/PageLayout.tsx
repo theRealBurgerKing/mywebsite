@@ -1,6 +1,7 @@
 // components/PageLayout.tsx
 import { Box, CssBaseline } from "@mui/material";
 import { Navigation } from "./Navigation";
+import { LeftSidebar } from "./LeftSidebar";
 
 interface PageLayoutProps {
   currentPage: string;
@@ -25,10 +26,10 @@ export function PageLayout({
             fontFamily: "system-ui, -apple-system, sans-serif",
             display: "flex",
             flexDirection: "column",
-            overflow: "auto",
+            overflow: "hidden",
           }}
         >
-          {/* 固定在顶部的导航栏 */}
+          {/* 固定在顶部的导航栏 - 所有页面都显示 */}
           <Box
             sx={{
               position: "fixed",
@@ -42,14 +43,54 @@ export function PageLayout({
             <Navigation currentPage={currentPage} onPageChange={onPageChange} />
           </Box>
 
-          {/* 主要内容区域*/}
+          {/* 主要内容区域 - 在导航栏下方 */}
           <Box
             sx={{
               flex: 1,
-              paddingTop: "80px",
+              display: "flex",
+              flexDirection: "row",
+              paddingTop: "80px", // 为顶部导航栏留出空间
+              overflow: "hidden",
             }}
           >
-            {children}
+            {/* About 页面的特殊布局：左侧边栏 + 右侧内容 */}
+            {currentPage === "about" ? (
+              <>
+                {/* 左侧页内导航栏 */}
+                <Box
+                  sx={{
+                    width: "250px",
+                    flexShrink: 0,
+                    overflow: "auto",
+                  }}
+                >
+                  <LeftSidebar
+                    currentPage={currentPage}
+                    onPageChange={onPageChange}
+                  />
+                </Box>
+
+                {/* 右侧主要内容区域 */}
+                <Box
+                  sx={{
+                    flex: 1,
+                    overflow: "auto",
+                  }}
+                >
+                  {children}
+                </Box>
+              </>
+            ) : (
+              /* 其他页面的布局：全宽内容 */
+              <Box
+                sx={{
+                  flex: 1,
+                  overflow: "auto",
+                }}
+              >
+                {children}
+              </Box>
+            )}
           </Box>
         </Box>
       </Box>

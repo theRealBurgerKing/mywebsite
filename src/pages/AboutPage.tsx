@@ -14,13 +14,13 @@ import BrushIcon from "@mui/icons-material/Brush";
 import { Tooltip } from "@mui/material";
 
 export function AboutPage() {
-  const containerRef = useRef(null);
-  const sectionsRef = useRef([]);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const sectionsRef = useRef<(HTMLElement | null)[]>([]);
   // 添加时间计算函数
-  const getTimeAgo = (targetDate) => {
+  const getTimeAgo = (targetDate: string) => {
     const now = new Date();
     const target = new Date(targetDate);
-    const diffInMs = now - target;
+    const diffInMs = now.getTime() - target.getTime();
 
     const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
     const diffInWeeks = Math.floor(diffInDays / 7);
@@ -37,8 +37,10 @@ export function AboutPage() {
       return `${diffInDays} day${diffInDays > 1 ? "s" : ""} ago`;
     }
   };
-  const setSectionRef = (index) => (el) => {
-    sectionsRef.current[index] = el;
+  const setSectionRef = (index: number) => (el: HTMLElement | null) => {
+    if (sectionsRef.current) {
+      sectionsRef.current[index] = el;
+    }
   };
 
   useEffect(() => {
@@ -48,7 +50,7 @@ export function AboutPage() {
     let isScrolling = false;
     let currentSection = 0;
 
-    const handleWheel = (e) => {
+    const handleWheel = (e: WheelEvent) => {
       if (isScrolling) return;
 
       e.preventDefault();
@@ -100,6 +102,7 @@ export function AboutPage() {
     >
       {/* 主要介绍块 */}
       <Box
+        id="homepage"
         ref={setSectionRef(0)}
         sx={{
           display: "flex",
@@ -283,6 +286,7 @@ export function AboutPage() {
 
       {/* Qualification 块 */}
       <Box
+        id="qualification"
         ref={setSectionRef(1)}
         sx={{
           width: "60vw",
@@ -515,6 +519,7 @@ export function AboutPage() {
 
       {/* Tech Stack 块 */}
       <Box
+        id="tech-stack"
         ref={setSectionRef(2)}
         sx={{
           width: "60vw",
@@ -786,6 +791,7 @@ export function AboutPage() {
       </Box>
       {/* Projects 块 */}
       <Box
+        id="projects"
         ref={setSectionRef(3)}
         sx={{
           width: "60vw",
@@ -1038,6 +1044,7 @@ export function AboutPage() {
       </Box>
       {/* ===========Contact Me 块 ===========*/}
       <Box
+        id="contact"
         ref={setSectionRef(4)}
         sx={{
           width: "60vw",
