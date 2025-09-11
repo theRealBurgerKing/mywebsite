@@ -85,6 +85,20 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
     };
   }, [onScrollToSectionRef]);
 
+  // 当activeSection重置为homepage时，自动滚动到第一个section
+  useEffect(() => {
+    if (activeSection === "homepage" && sectionsRef.current[0]) {
+      // 延迟一点时间确保组件完全渲染
+      const timer = setTimeout(() => {
+        sectionsRef.current[0]?.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [activeSection]);
+
 
   useEffect(() => {
     const container = containerRef.current;

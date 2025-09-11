@@ -1,5 +1,5 @@
 // App.tsx
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { PageLayout } from "./components/PageLayout";
 import { HomePage } from "./pages/HomePage";
 import { BlogPage } from "./pages/BlogPage";
@@ -11,6 +11,13 @@ function App() {
 
   // 创建scrollToSection函数的引用
   const scrollToSectionRef = useRef<((sectionId: string) => void) | null>(null);
+
+  // 当页面切换到about时，重置section为homepage
+  useEffect(() => {
+    if (currentPage === "about") {
+      setActiveSection("homepage");
+    }
+  }, [currentPage]);
 
   const renderPage = () => {
     switch (currentPage) {
