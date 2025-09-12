@@ -138,9 +138,9 @@ export function WorkPage() {
         margin: "4rem auto",
         padding: "2rem 3rem 3rem",
         maxWidth: "500px",
-        background: "#FF6666",
+        background: "#6B7B3A",
         color: "#FFF",
-        boxShadow: "-20px -20px 0px 0px rgba(100,100,100,.1)",
+        //boxShadow: "-20px -20px 0px 0px rgba(100,100,100,.1)",
         fontFamily: "'Quicksand', sans-serif",
         "& *": {
           margin: 0,
@@ -199,8 +199,10 @@ export function WorkPage() {
             boxShadow: "0 4px 8px rgba(0,0,0,0.2)"
           },
           "&.dragging": {
-            opacity: 0.5,
-            transform: "rotate(2deg)"
+            opacity: 0.8,                        // 透明度只降到80%，保持清晰可见
+            transform: "scale(1.05)",             // 放大到105%，替代倾斜效果
+            zIndex: 1000,                        // 提升层级，确保在最上层
+            boxShadow: "0 8px 16px rgba(0,0,0,0.3)" // 添加明显阴影，增强立体感
           }
         },
         "& .drag-handle": {
@@ -278,7 +280,7 @@ export function WorkPage() {
             "& button": {
               padding: "0 1.3rem",
               border: "1px solid rgba(255,255,255,.3)",
-              background: "#FF6666",
+              background: "#7B6B5A",
               color: "white",
               textTransform: "uppercase",
               fontWeight: "bold",
@@ -288,7 +290,7 @@ export function WorkPage() {
               fontFamily: "'Quicksand', sans-serif",
               height: "3rem",
               "&:hover": {
-                background: "#FF5E5E"
+                background: "#7C8C4A"
               }
             }
           }
@@ -329,7 +331,7 @@ export function WorkPage() {
               width: "18px",
               height: "18px",
               borderRadius: "50%",
-              background: "#FF6666",
+              background: "#6B7B3A",
               opacity: 0.7,
               transition: "all .2s ease-in-out"
             }
