@@ -140,7 +140,6 @@ export function WorkPage() {
         maxWidth: "500px",
         background: "#6B7B3A",
         color: "#FFF",
-        //boxShadow: "-20px -20px 0px 0px rgba(100,100,100,.1)",
         fontFamily: "'Quicksand', sans-serif",
         "& *": {
           margin: 0,
@@ -199,9 +198,9 @@ export function WorkPage() {
             boxShadow: "0 4px 8px rgba(0,0,0,0.2)"
           },
           "&.dragging": {
-            opacity: 0.8,                        // 透明度只降到80%，保持清晰可见
-            transform: "scale(1.05)",             // 放大到105%，替代倾斜效果
-            zIndex: 1000,                        // 提升层级，确保在最上层
+            opacity: 0.8,
+            transform: "scale(1.05)",
+            zIndex: 1000,
             boxShadow: "0 8px 16px rgba(0,0,0,0.3)" // 添加明显阴影，增强立体感
           }
         },
