@@ -9,6 +9,7 @@ interface NavigationProps {
 const navigationItems = [
   { key: "home", label: "Home" },
   { key: "blog", label: "Blog" },
+  { key: "work", label: "Work" },
   { key: "about", label: "About Me" },
 ];
 

@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import { PageLayout } from "./components/PageLayout";
 import { HomePage } from "./pages/HomePage";
 import { BlogPage } from "./pages/BlogPage";
+import { WorkPage } from "./pages/WorkPage";
 import { AboutPage } from "./pages/AboutPage";
 
 function App() {
@@ -25,6 +26,8 @@ function App() {
         return <HomePage />;
       case "blog":
         return <BlogPage />;
+      case "work":
+        return <WorkPage />;
       case "about":
         return <AboutPage 
           activeSection={activeSection} 
