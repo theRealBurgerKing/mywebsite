@@ -1,7 +1,10 @@
 // pages/BlogPage.tsx
 import { Box, Typography } from "@mui/material";
+import { useTheme } from "../contexts/ThemeContext";
 
 export function BlogPage() {
+  const { theme } = useTheme();
+
   return (
     <Box
       sx={{
@@ -16,7 +19,7 @@ export function BlogPage() {
         sx={{
           fontSize: { xs: "3rem", sm: "4rem", md: "6rem" },
           fontWeight: "bold",
-          color: "#8b4513",
+          color: theme.colors.primary,
           textAlign: "center",
         }}
       >

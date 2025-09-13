@@ -5,6 +5,7 @@ import TaskAltIcon from '@mui/icons-material/TaskAlt';
 import PanoramaFishEyeIcon from '@mui/icons-material/PanoramaFishEye';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
+import { useTheme } from "../contexts/ThemeContext";
 
 interface Todo {
   id: number;
@@ -40,6 +41,7 @@ const ToggleButton = ({ label, name, onClicked }: { label: string; name: string;
 };
 
 export function WorkPage() {
+  const { theme } = useTheme();
   const [newItem, setNewItem] = useState('');
   const [sortByStatus, setSortByStatus] = useState(false);
   const [todos, setTodos] = useState<Todo[]>([
@@ -93,11 +95,11 @@ export function WorkPage() {
     setDraggedItem(item);
     e.dataTransfer.effectAllowed = 'move';
     e.dataTransfer.setData('text/html', e.currentTarget.outerHTML);
-    e.currentTarget.style.opacity = '0.5';
+    (e.currentTarget as HTMLElement).style.opacity = '0.5';
   };
 
   const handleDragEnd = (e: React.DragEvent) => {
-    e.currentTarget.style.opacity = '1';
+    (e.currentTarget as HTMLElement).style.opacity = '1';
     setDraggedItem(null);
     setDragOverIndex(null);
   };
@@ -138,8 +140,8 @@ export function WorkPage() {
         margin: "4rem auto",
         padding: "2rem 3rem 3rem",
         maxWidth: "500px",
-        background: "#6B7B3A",
-        color: "#FFF",
+        background: theme.colors.surface,
+        color: theme.colors.text,
         fontFamily: "'Quicksand', sans-serif",
         "& *": {
           margin: 0,
@@ -229,23 +231,23 @@ export function WorkPage() {
         },
         "& .done .label": {
           opacity: 0.6,
-          "&:before": {
-            content: "''",
-            position: "absolute",
-            top: "50%",
-            left: "-.5rem",
-            display: "block",
-            width: 0,
-            height: "1px",
-            background: "#FFF",
-            animation: "strikeitem .3s ease-out 0s forwards"
-          }
+            "&:before": {
+              content: "''",
+              position: "absolute",
+              top: "50%",
+              left: "-.5rem",
+              display: "block",
+              width: 0,
+              height: "1px",
+              background: theme.colors.text,
+              animation: "strikeitem .3s ease-out 0s forwards"
+            }
         },
         "& .btn-picto": {
           border: "none",
           background: "none",
           cursor: "pointer",
-          color: "#FFF",
+          color: theme.colors.text,
           fontSize: "1.2rem",
           padding: "0.2rem",
           marginLeft: "0.5rem",
@@ -278,9 +280,9 @@ export function WorkPage() {
             },
             "& button": {
               padding: "0 1.3rem",
-              border: "1px solid rgba(255,255,255,.3)",
-              background: "#7B6B5A",
-              color: "white",
+              border: `1px solid ${theme.colors.border}`,
+              background: theme.colors.primary,
+              color: theme.colors.text,
               textTransform: "uppercase",
               fontWeight: "bold",
               marginLeft: "5px",
@@ -289,7 +291,7 @@ export function WorkPage() {
               fontFamily: "'Quicksand', sans-serif",
               height: "3rem",
               "&:hover": {
-                background: "#7C8C4A"
+                background: theme.colors.secondary
               }
             }
           }
@@ -318,7 +320,7 @@ export function WorkPage() {
             marginLeft: "0.6em",
             width: "38px",
             height: "22px",
-            background: "white",
+            background: theme.colors.background,
             borderRadius: "999px",
             cursor: "pointer",
             "&:before": {
@@ -330,7 +332,7 @@ export function WorkPage() {
               width: "18px",
               height: "18px",
               borderRadius: "50%",
-              background: "#6B7B3A",
+              background: theme.colors.primary,
               opacity: 0.7,
               transition: "all .2s ease-in-out"
             }

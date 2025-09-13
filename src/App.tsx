@@ -5,6 +5,7 @@ import { HomePage } from "./pages/HomePage";
 import { BlogPage } from "./pages/BlogPage";
 import { WorkPage } from "./pages/WorkPage";
 import { AboutPage } from "./pages/AboutPage";
+import { ThemeProvider } from "./contexts/ThemeContext";
 
 function App() {
   const [currentPage, setCurrentPage] = useState("home");
@@ -38,17 +39,24 @@ function App() {
         return <HomePage />;
     }
   };
-
+  // 添加这个调试函数
+  const handleScrollToSection = (sectionId: string) => {
+    if (scrollToSectionRef.current) {
+      scrollToSectionRef.current(sectionId);
+    }
+  };
   return (
-    <PageLayout 
-      currentPage={currentPage} 
-      onPageChange={setCurrentPage}
-      activeSection={activeSection}
-      onSectionChange={setActiveSection}
-      onScrollToSection={scrollToSectionRef.current || (() => {})}
-    >
-      {renderPage()}
-    </PageLayout>
+    <ThemeProvider>
+      <PageLayout 
+        currentPage={currentPage} 
+        onPageChange={setCurrentPage}
+        activeSection={activeSection}
+        onSectionChange={setActiveSection}
+        onScrollToSection={handleScrollToSection}
+      >
+        {renderPage()}
+      </PageLayout>
+    </ThemeProvider>
   );
 }
 

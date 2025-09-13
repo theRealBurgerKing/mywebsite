@@ -12,6 +12,7 @@ import CodeIcon from "@mui/icons-material/Code";
 import StorageIcon from "@mui/icons-material/Storage";
 import BrushIcon from "@mui/icons-material/Brush";
 import { Tooltip } from "@mui/material";
+import { useTheme } from "../contexts/ThemeContext";
 
 interface AboutPageProps {
   activeSection: string;
@@ -20,6 +21,7 @@ interface AboutPageProps {
 }
 
 export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef }: AboutPageProps) {
+  const { theme } = useTheme();
   const containerRef = useRef<HTMLDivElement>(null);
   const sectionsRef = useRef<(HTMLElement | null)[]>([]);
   const [isScrolling, setIsScrolling] = useState(false);
@@ -61,8 +63,33 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
   };
 
   // 滚动到指定section的函数
+  // const scrollToSection = (sectionId: string) => {
+  //   const sectionIndex = sections.findIndex(section => section.id === sectionId);
+  //   if (sectionIndex !== -1 && sectionsRef.current[sectionIndex]) {
+  //     onSectionChange(sectionId);
+  //     setIsScrolling(true);
+  //     sectionsRef.current[sectionIndex]?.scrollIntoView({
+  //       behavior: "smooth",
+  //       block: "center",
+  //     });
+  //     // 防止过快滚动
+  //     setTimeout(() => {
+  //       setIsScrolling(false);
+  //     }, 1000);
+  //   }
+  // };
+    // 将scrollToSection函数设置到ref中，供外部调用
+  useEffect(() => {
+    onScrollToSectionRef.current = scrollToSection;
+    return () => {
+      onScrollToSectionRef.current = null;
+    };
+  }, [onScrollToSectionRef]);
+
+  // 在 scrollToSection 函数中也添加调试
   const scrollToSection = (sectionId: string) => {
     const sectionIndex = sections.findIndex(section => section.id === sectionId);
+    
     if (sectionIndex !== -1 && sectionsRef.current[sectionIndex]) {
       onSectionChange(sectionId);
       setIsScrolling(true);
@@ -70,13 +97,13 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
         behavior: "smooth",
         block: "center",
       });
-      // 防止过快滚动
       setTimeout(() => {
         setIsScrolling(false);
       }, 1000);
+    } else {
+      console.log('❌ 无法找到目标section或section ref不存在');
     }
   };
-
   // 将scrollToSection函数设置到ref中，供外部调用
   useEffect(() => {
     onScrollToSectionRef.current = scrollToSection;
@@ -103,20 +130,21 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
-
+  
     const handleWheel = (e: WheelEvent) => {
-      if (isScrolling) return;
-
+      // 检查事件是否来自容器内部，且不在滚动状态
+      if (!container.contains(e.target as Node) || isScrolling) return;
+      
       e.preventDefault();
       setIsScrolling(true);
-
+  
       const availableSections = sectionsRef.current.filter(Boolean);
       const delta = e.deltaY;
       
       // 找到当前活跃section的索引
       const currentIndex = sections.findIndex(section => section.id === activeSection);
       let nextIndex = currentIndex;
-
+  
       if (delta > 0 && currentIndex < availableSections.length - 1) {
         // 向下滚动
         nextIndex = currentIndex + 1;
@@ -128,27 +156,31 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
         setIsScrolling(false);
         return;
       }
-
+  
       // 更新活跃section
       if (sections[nextIndex]) {
         onSectionChange(sections[nextIndex].id);
       }
-
+  
       // 滚动到目标区块
       availableSections[nextIndex]?.scrollIntoView({
         behavior: "smooth",
         block: "center",
       });
-
+  
       // 防止过快滚动
       setTimeout(() => {
         setIsScrolling(false);
       }, 1000);
     };
-
-    container.addEventListener("wheel", handleWheel, { passive: false });
-
+  
+    // 延迟启用wheel事件监听，确保左侧导航完成初始化
+    const timer = setTimeout(() => {
+      container.addEventListener("wheel", handleWheel, { passive: false });
+    }, 300);
+  
     return () => {
+      clearTimeout(timer);
       container.removeEventListener("wheel", handleWheel);
     };
   }, [isScrolling, sections, onSectionChange, activeSection]);
@@ -213,7 +245,7 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
           gap: 2,
           width: "60vw",
           flexDirection: { xs: "column", md: "row" },
-          backgroundColor: "#fff",
+          backgroundColor: theme.colors.surface,
           borderRadius: "16px",
           p: { xs: 4, md: 6 },
           mt: 30,
@@ -237,7 +269,7 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
             sx={{
               fontSize: { xs: "2.5rem", sm: "3.5rem", md: "4.5rem" },
               fontWeight: "bold",
-              color: "#333",
+              color: theme.colors.text,
               lineHeight: 1.2,
               mb: 2,
             }}
@@ -247,7 +279,7 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
               component="span"
               sx={{
                 display: "block",
-                color: "#8b4513",
+                color: theme.colors.primary,
                 fontSize: { xs: "2rem", sm: "2.8rem", md: "3.5rem" },
                 textTransform: "uppercase",
                 letterSpacing: "0.02em",
@@ -262,7 +294,7 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
             sx={{
               fontSize: { xs: "1.1rem", sm: "1.3rem", md: "1.5rem" },
               fontWeight: "500",
-              color: "#666",
+              color: theme.colors.textSecondary,
               mb: 3,
             }}
           >
@@ -272,7 +304,7 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
           <Typography
             sx={{
               fontSize: { xs: "0.95rem", sm: "1rem", md: "1.1rem" },
-              color: "#777",
+              color: theme.colors.textSecondary,
               lineHeight: 1.6,
               mb: 4,
               maxWidth: "600px",
@@ -295,7 +327,7 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
                   fontSize: "12px",
                 },
                 "& .MuiTooltip-arrow": {
-                  color: "#333",
+                  color: theme.colors.text,
                 },
               }}
             >
@@ -317,7 +349,7 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
                   mt: 2,
                   mb: 6,
                   "&:hover": {
-                    color: "#8b4513",
+                    color: theme.colors.primary,
                   },
                 }}
               >
@@ -332,7 +364,7 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
           </Box>
           <Button
             sx={{
-              backgroundColor: "#8b4513",
+              backgroundColor: theme.colors.primary,
               color: "white",
               px: 4,
               py: 1.5,
@@ -345,7 +377,7 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
               gap: 1,
               mx: { xs: "auto", md: 0 },
               "&:hover": {
-                backgroundColor: "#6d3710",
+                backgroundColor: theme.colors.hover,
                 transform: "translateY(-2px)",
                 transition: "all 0.3s ease",
               },
@@ -394,7 +426,7 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
         sx={{
           width: "60vw",
           textAlign: "center",
-          backgroundColor: "#fff",
+          backgroundColor: theme.colors.surface,
           borderRadius: "16px",
           p: { xs: 4, md: 6 },
           boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)",
@@ -452,7 +484,7 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
               display: "flex",
               alignItems: "center",
               gap: 1,
-              color: "#666",
+              color: theme.colors.textSecondary,
               fontSize: "1.3rem",
               fontWeight: "500",
             }}
@@ -479,7 +511,7 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
               top: 0,
               bottom: 0,
               width: "2px",
-              backgroundColor: "#8b4513",
+              backgroundColor: theme.colors.primary,
               transform: "translateX(-50%)",
             }}
           />
@@ -505,7 +537,7 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
                 sx={{
                   fontSize: "1.4rem",
                   fontWeight: "600",
-                  color: "#333",
+                  color: theme.colors.text,
                   mb: 1,
                 }}
               >
@@ -514,7 +546,7 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
               <Typography
                 sx={{
                   fontSize: "1rem",
-                  color: "#8b4513",
+                  color: theme.colors.primary,
                   mb: 2,
                 }}
               >
@@ -526,7 +558,7 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
                   alignItems: "center",
                   justifyContent: "flex-end",
                   gap: 1,
-                  color: "#777",
+                  color: theme.colors.textSecondary,
                   fontSize: "0.9rem",
                 }}
               >
@@ -540,7 +572,7 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
               sx={{
                 width: "16px",
                 height: "16px",
-                backgroundColor: "#8b4513",
+                backgroundColor: theme.colors.primary,
                 borderRadius: "50%",
                 position: "absolute",
                 left: "50%",
@@ -568,7 +600,7 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
               sx={{
                 width: "16px",
                 height: "16px",
-                backgroundColor: "#8b4513",
+                backgroundColor: theme.colors.primary,
                 borderRadius: "50%",
                 position: "absolute",
                 left: "50%",
@@ -588,7 +620,7 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
                 sx={{
                   fontSize: "1.4rem",
                   fontWeight: "600",
-                  color: "#333",
+                  color: theme.colors.text,
                   mb: 1,
                 }}
               >
@@ -597,7 +629,7 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
               <Typography
                 sx={{
                   fontSize: "1rem",
-                  color: "#8b4513",
+                  color: theme.colors.primary,
                   mb: 2,
                 }}
               >
@@ -608,7 +640,7 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
                   display: "flex",
                   alignItems: "center",
                   gap: 1,
-                  color: "#777",
+                  color: theme.colors.textSecondary,
                   fontSize: "0.9rem",
                 }}
               >
@@ -627,7 +659,7 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
         sx={{
           width: "60vw",
           textAlign: "center",
-          backgroundColor: "#fff",
+          backgroundColor: theme.colors.background,
           borderRadius: "16px",
           p: { xs: 4, md: 6 },
           boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)",
@@ -689,7 +721,7 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
                 alignItems: "center",
                 width: "60px",
                 height: "60px",
-                backgroundColor: "#8b4513",
+                backgroundColor: theme.colors.primary,
                 borderRadius: "50%",
                 mx: "auto",
                 mb: 3,
@@ -701,7 +733,7 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
               sx={{
                 fontSize: "1.4rem",
                 fontWeight: "600",
-                color: "#333",
+                color: theme.colors.text,
                 mb: 2,
               }}
             >
@@ -731,11 +763,11 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
                     backgroundColor: "white",
                     borderRadius: "20px",
                     fontSize: "0.9rem",
-                    color: "#666",
+                    color: theme.colors.textSecondary,
                     border: "1px solid #e0e0e0",
                     transition: "all 0.2s ease",
                     "&:hover": {
-                      backgroundColor: "#8b4513",
+                      backgroundColor: theme.colors.primary,
                       color: "white",
                       borderColor: "#8b4513",
                     },
@@ -768,7 +800,7 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
                 alignItems: "center",
                 width: "60px",
                 height: "60px",
-                backgroundColor: "#8b4513",
+                backgroundColor: theme.colors.primary,
                 borderRadius: "50%",
                 mx: "auto",
                 mb: 3,
@@ -780,7 +812,7 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
               sx={{
                 fontSize: "1.4rem",
                 fontWeight: "600",
-                color: "#333",
+                color: theme.colors.text,
                 mb: 2,
               }}
             >
@@ -803,11 +835,11 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
                     backgroundColor: "white",
                     borderRadius: "20px",
                     fontSize: "0.9rem",
-                    color: "#666",
+                    color: theme.colors.textSecondary,
                     border: "1px solid #e0e0e0",
                     transition: "all 0.2s ease",
                     "&:hover": {
-                      backgroundColor: "#8b4513",
+                      backgroundColor: theme.colors.primary,
                       color: "white",
                       borderColor: "#8b4513",
                     },
@@ -840,7 +872,7 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
                 alignItems: "center",
                 width: "60px",
                 height: "60px",
-                backgroundColor: "#8b4513",
+                backgroundColor: theme.colors.primary,
                 borderRadius: "50%",
                 mx: "auto",
                 mb: 3,
@@ -852,7 +884,7 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
               sx={{
                 fontSize: "1.4rem",
                 fontWeight: "600",
-                color: "#333",
+                color: theme.colors.text,
                 mb: 2,
               }}
             >
@@ -875,11 +907,11 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
                     backgroundColor: "white",
                     borderRadius: "20px",
                     fontSize: "0.9rem",
-                    color: "#666",
+                    color: theme.colors.textSecondary,
                     border: "1px solid #e0e0e0",
                     transition: "all 0.2s ease",
                     "&:hover": {
-                      backgroundColor: "#8b4513",
+                      backgroundColor: theme.colors.primary,
                       color: "white",
                       borderColor: "#8b4513",
                     },
@@ -899,7 +931,7 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
         sx={{
           width: "60vw",
           textAlign: "center",
-          backgroundColor: "#fff",
+          backgroundColor: theme.colors.background,
           borderRadius: "16px",
           p: { xs: 4, md: 6 },
           boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)",
@@ -1145,14 +1177,14 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
           </Box>
         </Box>
       </Box>
-      {/* ===========Contact Me 块 ===========*/}
+      {/* Contact Me 块 */}
       <Box
         id="contact"
         ref={setSectionRef(4)}
         sx={{
           width: "60vw",
           textAlign: "center",
-          backgroundColor: "#fff",
+          backgroundColor: theme.colors.background,
           borderRadius: "16px",
           p: { xs: 4, md: 6 },
           boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)",
@@ -1207,7 +1239,7 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
               sx={{
                 width: "24px",
                 height: "24px",
-                color: "#8b4513",
+                color: theme.colors.primary,
                 fontSize: "1.5rem",
                 flexShrink: 0,
                 display: "flex",
@@ -1222,7 +1254,7 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
                 sx={{
                   fontSize: "1.3rem",
                   fontWeight: "600",
-                  color: "#333",
+                  color: theme.colors.text,
                   mb: 0.5,
                 }}
               >
@@ -1231,7 +1263,7 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
               <Typography
                 sx={{
                   fontSize: "1.1rem",
-                  color: "#777",
+                  color: theme.colors.textSecondary,
                 }}
               >
                 +61 0481239388
@@ -1252,7 +1284,7 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
               sx={{
                 width: "24px",
                 height: "24px",
-                color: "#8b4513",
+                color: theme.colors.primary,
                 fontSize: "1.5rem",
                 flexShrink: 0,
                 display: "flex",
@@ -1267,7 +1299,7 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
                 sx={{
                   fontSize: "1.3rem",
                   fontWeight: "600",
-                  color: "#333",
+                  color: theme.colors.text,
                   mb: 0.5,
                 }}
               >
@@ -1276,7 +1308,7 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
               <Typography
                 sx={{
                   fontSize: "1.1rem",
-                  color: "#777",
+                  color: theme.colors.textSecondary,
                 }}
               >
                 haotianwang2001@gmail.com
@@ -1297,7 +1329,7 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
               sx={{
                 width: "24px",
                 height: "24px",
-                color: "#8b4513",
+                color: theme.colors.primary,
                 fontSize: "1.5rem",
                 flexShrink: 0,
                 display: "flex",
@@ -1312,7 +1344,7 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
                 sx={{
                   fontSize: "1.3rem",
                   fontWeight: "600",
-                  color: "#333",
+                  color: theme.colors.text,
                   mb: 0.5,
                 }}
               >
@@ -1321,7 +1353,7 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
               <Typography
                 sx={{
                   fontSize: "1.1rem",
-                  color: "#777",
+                  color: theme.colors.textSecondary,
                 }}
               >
                 Sydney, Australia

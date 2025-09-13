@@ -1,5 +1,6 @@
 // components/Navigation.tsx
 import { Box, Button } from "@mui/material";
+import { useTheme } from "../contexts/ThemeContext";
 
 interface NavigationProps {
   currentPage: string;
@@ -14,6 +15,8 @@ const navigationItems = [
 ];
 
 export function Navigation({ currentPage, onPageChange }: NavigationProps) {
+  const { theme } = useTheme();
+
   return (
     <Box
       sx={{
@@ -30,18 +33,18 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
           onClick={() => onPageChange(key)}
           sx={{
             fontSize: "1.2rem",
-            color: currentPage === key ? "#8b4513" : "#a0522d",
+            color: currentPage === key ? theme.colors.primary : theme.colors.secondary,
             fontWeight: "normal",
             textTransform: "none",
             border:
               currentPage === key
-                ? "2px solid #8b4513"
-                : "2px solid transparent",
+                ? `2px solid ${theme.colors.primary}`
+                : `2px solid transparent`,
             borderRadius: "8px",
             padding: "8px 16px",
             "&:hover": {
-              backgroundColor: "rgba(139, 69, 19, 0.1)",
-              border: "2px solid #a0522d",
+              backgroundColor: theme.colors.hover,
+              border: `2px solid ${theme.colors.secondary}`,
             },
           }}
         >

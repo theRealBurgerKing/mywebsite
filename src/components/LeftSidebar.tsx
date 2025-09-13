@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material";
+import { useTheme } from "../contexts/ThemeContext";
 
 interface LeftSidebarProps {
   activeSection: string;
@@ -19,6 +20,8 @@ const isSidebarItemActive = (itemKey: string, activeSection: string) => {
 };
 
 export function LeftSidebar({ activeSection, onScrollToSection }: LeftSidebarProps) {
+  const { theme } = useTheme();
+  
   // Function to scroll to a specific section
   const scrollToSection = (sectionId: string) => {
     onScrollToSection(sectionId);
@@ -58,11 +61,11 @@ export function LeftSidebar({ activeSection, onScrollToSection }: LeftSidebarPro
                 padding: "12px 20px",
                 cursor: "pointer",
                 transition: "all 0.3s ease",
-                backgroundColor: isSidebarItemActive(item.key, activeSection) ? "rgba(139, 69, 19, 0.1)" : "transparent",
+                backgroundColor: isSidebarItemActive(item.key, activeSection) ? theme.colors.hover : "transparent",
                 borderRadius: "8px",
                 margin: "2px 0",
                 "&:hover": {
-                  backgroundColor: "rgba(139, 69, 19, 0.15)",
+                  backgroundColor: theme.colors.hover,
                   transform: "translateX(5px)",
                 },
               }}
@@ -71,11 +74,10 @@ export function LeftSidebar({ activeSection, onScrollToSection }: LeftSidebarPro
                 sx={{
                   fontSize: "17px",
                   fontWeight: isSidebarItemActive(item.key, activeSection) ? "600" : "400",
-                  color: isSidebarItemActive(item.key, activeSection) ? "#8b4513" : "#6B4E30",
+                  color: isSidebarItemActive(item.key, activeSection) ? theme.colors.primary : theme.colors.textSecondary,
                   fontFamily: "Arial, sans-serif",
                   textAlign: "left",
                   lineHeight: 1.3,
-                  textShadow: "0 1px 2px rgba(255, 255, 255, 0.8)", // 添加文字阴影以提高可读性
                 }}
               >
                 {item.label}
@@ -86,7 +88,7 @@ export function LeftSidebar({ activeSection, onScrollToSection }: LeftSidebarPro
               <Box
                 sx={{
                   height: "1px",
-                  backgroundColor: "rgba(107, 78, 48, 0.2)", // 更微妙的颜色
+                  backgroundColor: theme.colors.border, // 使用主题边框颜色
                   margin: "4px 20px",
                 }}
               />

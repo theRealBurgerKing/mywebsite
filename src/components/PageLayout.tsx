@@ -2,6 +2,8 @@
 import { Box, CssBaseline } from "@mui/material";
 import { Navigation } from "./Navigation";
 import { LeftSidebar } from "./LeftSidebar";
+import { ThemeToggle } from "./ThemeToggle";
+import { useTheme } from "../contexts/ThemeContext";
 
 interface PageLayoutProps {
   currentPage: string;
@@ -20,6 +22,8 @@ export function PageLayout({
   activeSection,
   onScrollToSection,
 }: PageLayoutProps) {
+  const { theme } = useTheme();
+
   return (
     <>
       <CssBaseline />
@@ -28,7 +32,8 @@ export function PageLayout({
           sx={{
             width: "100vw",
             height: "100vh",
-            background: "#f5f5dc",
+            background: theme.colors.background,
+            color: theme.colors.text,
             fontFamily: "system-ui, -apple-system, sans-serif",
             display: "flex",
             flexDirection: "column",
@@ -43,10 +48,16 @@ export function PageLayout({
               left: 0,
               right: 0,
               zIndex: 1000,
-              backgroundColor: "#deb887",
+              backgroundColor: theme.colors.surface,
+              borderBottom: `1px solid ${theme.colors.border}`,
             }}
           >
-            <Navigation currentPage={currentPage} onPageChange={onPageChange} />
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <Navigation currentPage={currentPage} onPageChange={onPageChange} />
+              <Box sx={{ pr: 2 }}>
+                <ThemeToggle />
+              </Box>
+            </Box>
           </Box>
 
           {/* 主要内容区域 - 在导航栏下方 */}
