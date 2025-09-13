@@ -6,6 +6,7 @@ import { BlogPage } from "./pages/BlogPage";
 import { WorkPage } from "./pages/WorkPage";
 import { AboutPage } from "./pages/AboutPage";
 import { ThemeProvider } from "./contexts/ThemeContext";
+import { DraggableFloatingBlock } from "./components/DraggableFloatingBlock";
 
 function App() {
   const [currentPage, setCurrentPage] = useState("home");
@@ -56,6 +57,7 @@ function App() {
       >
         {renderPage()}
       </PageLayout>
+      <DraggableFloatingBlock />
     </ThemeProvider>
   );
 }
