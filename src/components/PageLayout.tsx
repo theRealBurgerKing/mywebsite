@@ -49,7 +49,7 @@ export function PageLayout({
               right: 0,
               zIndex: 1000,
               backgroundColor: theme.colors.surface,
-              borderBottom: `1px solid ${theme.colors.border}`,
+              //borderBottom: `1px solid ${theme.colors.border}`,
             }}
           >
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

@@ -23,6 +23,7 @@ export function Navigation({ currentPage, onPageChange }: NavigationProps) {
         display: "flex",
         justifyContent: "center",
         p: "20px",
+        pl: "5vw",
         gap: "20px",
         flexShrink: 0,
       }}

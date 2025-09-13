@@ -56,6 +56,101 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
       return `${diffInDays} day${diffInDays > 1 ? "s" : ""} ago`;
     }
   };
+
+  // Tech Stack 数据配置
+  const techStackData = [
+    {
+      title: "Frontend",
+      icon: CodeIcon,
+      technologies: ["React", "TypeScript", "JavaScript", "Next.js", "Tailwind CSS", "Material-UI"]
+    },
+    {
+      title: "Backend", 
+      icon: StorageIcon,
+      technologies: ["Node.js", "Python", "PostgreSQL"]
+    },
+    {
+      title: "Tools & Design",
+      icon: BrushIcon,
+      technologies: ["Git", "AWS", "Figma"]
+    }
+  ];
+
+  // Tech Category 组件
+  const TechCategory = ({ title, icon: IconComponent, technologies }: {
+    title: string;
+    icon: React.ComponentType<any>;
+    technologies: string[];
+  }) => (
+    <Box
+      sx={{
+        textAlign: "center",
+        p: 3,
+        borderRadius: "12px",
+        backgroundColor: theme.colors.background,
+        transition: "all 0.3s ease",
+        "&:hover": {
+          transform: "translateY(-5px)",
+        },
+      }}
+    >
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          width: "60px",
+          height: "60px",
+          backgroundColor: theme.colors.primary,
+          borderRadius: "50%",
+          mx: "auto",
+          mb: 3,
+        }}
+      >
+        <IconComponent sx={{ fontSize: "2rem", color: "white" }} />
+      </Box>
+      <Typography
+        sx={{
+          fontSize: "1.4rem",
+          fontWeight: "600",
+          color: theme.colors.text,
+          mb: 2,
+        }}
+      >
+        {title}
+      </Typography>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 1,
+          alignItems: "center",
+        }}
+      >
+        {technologies.map((tech) => (
+          <Box
+            key={tech}
+            sx={{
+              px: 2,
+              py: 0.5,
+              backgroundColor: "white",
+              borderRadius: "20px",
+              fontSize: "0.9rem",
+              color: theme.colors.textSecondary,
+              //border: `1px solid ${theme.colors.border}`,
+              transition: "all 0.2s ease",
+              "&:hover": {
+                backgroundColor: theme.colors.primary,
+                color: "white",
+              },
+            }}
+          >
+            {tech}
+          </Box>
+        ))}
+      </Box>
+    </Box>
+  );
   const setSectionRef = (index: number) => (el: HTMLElement | null) => {
     if (sectionsRef.current) {
       sectionsRef.current[index] = el;
@@ -101,7 +196,7 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
         setIsScrolling(false);
       }, 1000);
     } else {
-      console.log('❌ 无法找到目标section或section ref不存在');
+      console.log('cant find section ref');
     }
   };
   // 将scrollToSection函数设置到ref中，供外部调用
@@ -320,16 +415,16 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
               title="https://github.com/theRealBurgerKing"
               arrow
               placement="top"
-              sx={{
-                "& .MuiTooltip-tooltip": {
-                  backgroundColor: "#333",
-                  color: "white",
-                  fontSize: "12px",
-                },
-                "& .MuiTooltip-arrow": {
-                  color: theme.colors.text,
-                },
-              }}
+              // sx={{
+              //   "& .MuiTooltip-tooltip": {
+              //     backgroundColor: "#333",
+              //     color: "white",
+              //     fontSize: "12px",
+              //   },
+              //   "& .MuiTooltip-arrow": {
+              //     color: theme.colors.text,
+              //   },
+              // }}
             >
               <Box
                 component="a"
@@ -342,7 +437,7 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
                   justifyContent: "center",
                   width: "48px",
                   height: "48px",
-                  color: "black",
+                  color: theme.colors.text,
                   borderRadius: "50%",
                   textDecoration: "none",
                   mx: { xs: "auto", md: 0 },
@@ -432,7 +527,7 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
           boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)",
           maxWidth: "1300px",
           mb: "100vh",
-          minHeight: "60vh",
+          minHeight: "54vh",
         }}
       >
         {/* Section Header */}
@@ -441,8 +536,9 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
           sx={{
             fontSize: "4rem",
             fontWeight: "bold",
-            color: "#333",
+            color: theme.colors.text,
             mb: 1,
+            mt:3,
           }}
         >
           Qualification
@@ -463,7 +559,8 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
             display: "flex",
             justifyContent: "center",
             gap: 6,
-            mb: 6,
+            mb: 4,
+            mt:10,
           }}
         >
           <Box
@@ -501,6 +598,7 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
             maxWidth: "800px",
             mx: "auto",
             textAlign: "left",
+            mt: 6,
           }}
         >
           {/* Timeline Line */}
@@ -659,7 +757,7 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
         sx={{
           width: "60vw",
           textAlign: "center",
-          backgroundColor: theme.colors.background,
+          backgroundColor: theme.colors.surface,
           borderRadius: "16px",
           p: { xs: 4, md: 6 },
           boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)",
@@ -674,7 +772,7 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
           sx={{
             fontSize: "4rem",
             fontWeight: "bold",
-            color: "#333",
+            color: theme.colors.text,
             mb: 1,
           }}
         >
@@ -700,228 +798,14 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
             mx: "auto",
           }}
         >
-          {/* Frontend */}
-          <Box
-            sx={{
-              textAlign: "center",
-              p: 3,
-              borderRadius: "12px",
-              backgroundColor: "#f8f9fa",
-              transition: "all 0.3s ease",
-              "&:hover": {
-                transform: "translateY(-5px)",
-                boxShadow: "0 8px 25px rgba(139, 69, 19, 0.1)",
-              },
-            }}
-          >
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                width: "60px",
-                height: "60px",
-                backgroundColor: theme.colors.primary,
-                borderRadius: "50%",
-                mx: "auto",
-                mb: 3,
-              }}
-            >
-              <CodeIcon sx={{ fontSize: "2rem", color: "white" }} />
-            </Box>
-            <Typography
-              sx={{
-                fontSize: "1.4rem",
-                fontWeight: "600",
-                color: theme.colors.text,
-                mb: 2,
-              }}
-            >
-              Frontend
-            </Typography>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                gap: 1,
-                alignItems: "center",
-              }}
-            >
-              {[
-                "React",
-                "TypeScript",
-                "JavaScript",
-                "Next.js",
-                "Tailwind CSS",
-                "Material-UI",
-              ].map((tech) => (
-                <Box
-                  key={tech}
-                  sx={{
-                    px: 2,
-                    py: 0.5,
-                    backgroundColor: "white",
-                    borderRadius: "20px",
-                    fontSize: "0.9rem",
-                    color: theme.colors.textSecondary,
-                    border: "1px solid #e0e0e0",
-                    transition: "all 0.2s ease",
-                    "&:hover": {
-                      backgroundColor: theme.colors.primary,
-                      color: "white",
-                      borderColor: "#8b4513",
-                    },
-                  }}
-                >
-                  {tech}
-                </Box>
-              ))}
-            </Box>
-          </Box>
-
-          {/* Backend */}
-          <Box
-            sx={{
-              textAlign: "center",
-              p: 3,
-              borderRadius: "12px",
-              backgroundColor: "#f8f9fa",
-              transition: "all 0.3s ease",
-              "&:hover": {
-                transform: "translateY(-5px)",
-                boxShadow: "0 8px 25px rgba(139, 69, 19, 0.1)",
-              },
-            }}
-          >
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                width: "60px",
-                height: "60px",
-                backgroundColor: theme.colors.primary,
-                borderRadius: "50%",
-                mx: "auto",
-                mb: 3,
-              }}
-            >
-              <StorageIcon sx={{ fontSize: "2rem", color: "white" }} />
-            </Box>
-            <Typography
-              sx={{
-                fontSize: "1.4rem",
-                fontWeight: "600",
-                color: theme.colors.text,
-                mb: 2,
-              }}
-            >
-              Backend
-            </Typography>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                gap: 1,
-                alignItems: "center",
-              }}
-            >
-              {["Node.js", "Python", "PostgreSQL"].map((tech) => (
-                <Box
-                  key={tech}
-                  sx={{
-                    px: 2,
-                    py: 0.5,
-                    backgroundColor: "white",
-                    borderRadius: "20px",
-                    fontSize: "0.9rem",
-                    color: theme.colors.textSecondary,
-                    border: "1px solid #e0e0e0",
-                    transition: "all 0.2s ease",
-                    "&:hover": {
-                      backgroundColor: theme.colors.primary,
-                      color: "white",
-                      borderColor: "#8b4513",
-                    },
-                  }}
-                >
-                  {tech}
-                </Box>
-              ))}
-            </Box>
-          </Box>
-
-          {/* Tools & Design */}
-          <Box
-            sx={{
-              textAlign: "center",
-              p: 3,
-              borderRadius: "12px",
-              backgroundColor: "#f8f9fa",
-              transition: "all 0.3s ease",
-              "&:hover": {
-                transform: "translateY(-5px)",
-                boxShadow: "0 8px 25px rgba(139, 69, 19, 0.1)",
-              },
-            }}
-          >
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                width: "60px",
-                height: "60px",
-                backgroundColor: theme.colors.primary,
-                borderRadius: "50%",
-                mx: "auto",
-                mb: 3,
-              }}
-            >
-              <BrushIcon sx={{ fontSize: "2rem", color: "white" }} />
-            </Box>
-            <Typography
-              sx={{
-                fontSize: "1.4rem",
-                fontWeight: "600",
-                color: theme.colors.text,
-                mb: 2,
-              }}
-            >
-              Tools & Design
-            </Typography>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                gap: 1,
-                alignItems: "center",
-              }}
-            >
-              {["Git", "AWS", "Figma"].map((tech) => (
-                <Box
-                  key={tech}
-                  sx={{
-                    px: 2,
-                    py: 0.5,
-                    backgroundColor: "white",
-                    borderRadius: "20px",
-                    fontSize: "0.9rem",
-                    color: theme.colors.textSecondary,
-                    border: "1px solid #e0e0e0",
-                    transition: "all 0.2s ease",
-                    "&:hover": {
-                      backgroundColor: theme.colors.primary,
-                      color: "white",
-                      borderColor: "#8b4513",
-                    },
-                  }}
-                >
-                  {tech}
-                </Box>
-              ))}
-            </Box>
-          </Box>
+          {techStackData.map((category) => (
+            <TechCategory
+              key={category.title}
+              title={category.title}
+              icon={category.icon}
+              technologies={category.technologies}
+            />
+          ))}
         </Box>
       </Box>
       {/* Projects 块 */}
@@ -931,7 +815,7 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
         sx={{
           width: "60vw",
           textAlign: "center",
-          backgroundColor: theme.colors.background,
+          backgroundColor: theme.colors.surface,
           borderRadius: "16px",
           p: { xs: 4, md: 6 },
           boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)",
@@ -1073,7 +957,7 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
           sx={{
             fontSize: "4rem",
             fontWeight: "bold",
-            color: "#333",
+            color: theme.colors.text,
             mb: 1,
           }}
         >
@@ -1184,7 +1068,7 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
         sx={{
           width: "60vw",
           textAlign: "center",
-          backgroundColor: theme.colors.background,
+          backgroundColor: theme.colors.surface,
           borderRadius: "16px",
           p: { xs: 4, md: 6 },
           boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)",
@@ -1199,7 +1083,7 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
           sx={{
             fontSize: "4rem",
             fontWeight: "bold",
-            color: "#333",
+            color: theme.colors.text,
             mb: 1,
           }}
         >

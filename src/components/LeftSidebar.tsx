@@ -87,7 +87,7 @@ export function LeftSidebar({ activeSection, onScrollToSection }: LeftSidebarPro
             {index < sidebarItems.length - 1 && (
               <Box
                 sx={{
-                  height: "1px",
+                  height: "0.2px",
                   backgroundColor: theme.colors.border, // 使用主题边框颜色
                   margin: "4px 20px",
                 }}

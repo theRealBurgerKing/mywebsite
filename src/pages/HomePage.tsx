@@ -2,11 +2,12 @@
 import { useState, useEffect } from "react";
 import { Box } from "@mui/material";
 import { TypewriterText } from "../components/TypewriterText";
+import { useTheme } from "../contexts/ThemeContext";
 
 export function HomePage() {
   const [showSecondLine, setShowSecondLine] = useState(false);
   const [firstLineComplete, setFirstLineComplete] = useState(false);
-
+  const { theme } = useTheme();
   useEffect(() => {
     // 监听第一行完成
     const timeout = setTimeout(() => {
@@ -33,6 +34,7 @@ export function HomePage() {
           speed={50}
           variant="h1"
           showCursor={!firstLineComplete}
+          sx={{color: theme.colors.primary}}
         />
 
         {showSecondLine && (
@@ -40,7 +42,8 @@ export function HomePage() {
             text="I'm Haotian Wang"
             speed={50}
             variant="h2"
-            sx={{ marginBottom: "1rem" }}
+            sx={{ marginBottom: "1rem",
+              color: theme.colors.primary,}}
           />
         )}
       </Box>

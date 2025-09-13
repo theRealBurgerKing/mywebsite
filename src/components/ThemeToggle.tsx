@@ -7,7 +7,7 @@ export function ThemeToggle() {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <Tooltip title={`切换到${theme.mode === 'light' ? '深色' : '浅色'}主题`}>
+    <Tooltip title={`Toggle ${theme.mode === 'light' ? 'dark' : 'light'}theme`}>
       <IconButton
         onClick={toggleTheme}
         sx={{
@@ -16,7 +16,7 @@ export function ThemeToggle() {
             backgroundColor: theme.colors.hover,
           },
         }}
-        aria-label="切换主题"
+        aria-label="toggle theme"
       >
         {theme.mode === 'light' ? <DarkMode /> : <LightMode />}
       </IconButton>
