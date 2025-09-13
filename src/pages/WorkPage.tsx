@@ -282,7 +282,7 @@ export function WorkPage() {
               padding: "0 1.3rem",
               border: `1px solid ${theme.colors.border}`,
               background: theme.colors.primary,
-              color: theme.colors.text,
+              color: theme.colors.invertedColorText,
               textTransform: "uppercase",
               fontWeight: "bold",
               marginLeft: "5px",

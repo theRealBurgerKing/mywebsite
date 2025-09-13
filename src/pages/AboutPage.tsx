@@ -13,6 +13,7 @@ import StorageIcon from "@mui/icons-material/Storage";
 import BrushIcon from "@mui/icons-material/Brush";
 import { Tooltip } from "@mui/material";
 import { useTheme } from "../contexts/ThemeContext";
+import resumePdf from "../assets/resume.pdf";
 
 interface AboutPageProps {
   activeSection: string;
@@ -457,38 +458,64 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
               </Box>
             </Tooltip>
           </Box>
-          <Button
-            onClick={() => scrollToSection("contact")}
+          <Box
             sx={{
-              backgroundColor: theme.colors.primary,
-              color: theme.colors.invertedColorText,
-              px: 4,
-              py: 1.5,
-              fontSize: "1rem",
-              fontWeight: "500",
-              borderRadius: "8px",
-              textTransform: "none",
               display: "flex",
-              alignItems: "center",
-              gap: 1,
+              gap: 2,
               mx: { xs: "auto", md: 0 },
-              "&:hover": {
-                backgroundColor: theme.colors.hover,
-                transform: "translateY(-2px)",
-                transition: "all 0.3s ease",
-              },
-              "&:after": {
-                content: '"→"',
-                fontSize: "1.2rem",
-                transition: "transform 0.3s ease",
-              },
-              "&:hover:after": {
-                transform: "translateX(4px)",
-              },
             }}
           >
-            Contact Me
-          </Button>
+            <Button
+              onClick={() => scrollToSection("contact")}
+              sx={{
+                backgroundColor: "transparent",
+                color: theme.colors.primary,
+                border: `2px solid ${theme.colors.primary}`,
+                px: 4,
+                py: 1.5,
+                fontSize: "1rem",
+                fontWeight: "500",
+                borderRadius: "8px",
+                textTransform: "none",
+                display: "flex",
+                alignItems: "center",
+                gap: 1,
+                mx: { xs: "auto", md: 0 },
+                "&:hover": {
+                  backgroundColor: theme.colors.primary,
+                  color: theme.colors.invertedColorText,
+                  transform: "translateY(-2px)",
+                  transition: "all 0.3s ease",
+                },
+              }}
+            >
+              Contact Me
+            </Button>
+            <Button
+              component="a"
+              href={resumePdf}
+              download="Haotian_Wang_Resume.pdf"
+              sx={{
+                backgroundColor: "transparent",
+                color: theme.colors.primary,
+                border: `2px solid ${theme.colors.primary}`,
+                px: 4,
+                py: 1.5,
+                fontSize: "1rem",
+                fontWeight: "500",
+                borderRadius: "8px",
+                textTransform: "none",
+                "&:hover": {
+                  backgroundColor: theme.colors.primary,
+                  color: theme.colors.invertedColorText,
+                  transform: "translateY(-2px)",
+                  transition: "all 0.3s ease",
+                },
+              }}
+            >
+              Download Resume
+            </Button>
+          </Box>
         </Box>
 
         {/* 右侧头像区域 */}
@@ -774,7 +801,8 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
             fontSize: "4rem",
             fontWeight: "bold",
             color: theme.colors.text,
-            mb: 1,
+            mb: 2,
+            mt: 6,
           }}
         >
           Tech Stack
@@ -961,6 +989,7 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
             fontWeight: "bold",
             color: theme.colors.text,
             mb: 1,
+            mt:6
           }}
         >
           Projects
