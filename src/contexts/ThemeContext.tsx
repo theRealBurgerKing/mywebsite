@@ -9,6 +9,7 @@ interface ThemeColors {
   primary: string;
   secondary: string;
   text: string;
+  invertedColorText: string;
   textSecondary: string;
   border: string;
   hover: string;
@@ -34,6 +35,7 @@ const lightTheme: Theme = {
     primary: '#8b4513',    // 深棕色主色
     secondary: '#a0522d',  // 中棕色次色
     text: '#2c2c2c',       // 深灰色文字
+    invertedColorText: '#ffffff',
     textSecondary: '#666666', // 中灰色次要文字
     border: '#8b4513',     // 深棕色边框
     hover: 'rgba(139, 69, 19, 0.1)', // 主色半透明悬停
@@ -49,6 +51,7 @@ const darkTheme: Theme = {
     primary: '#ffd700',    // 金色主色
     secondary: '#ffed4e',  // 浅金色次色
     text: '#ffffff',       // 白色文字
+    invertedColorText: '#000000',
     textSecondary: '#cccccc', // 浅灰色次要文字
     border: '#ffd700',     // 金色边框
     hover: 'rgba(255, 215, 0, 0.1)', // 金色半透明悬停

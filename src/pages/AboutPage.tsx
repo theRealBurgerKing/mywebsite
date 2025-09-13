@@ -133,10 +133,10 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
             sx={{
               px: 2,
               py: 0.5,
-              backgroundColor: "white",
+              backgroundColor: theme.colors.background,
               borderRadius: "20px",
               fontSize: "0.9rem",
-              color: theme.colors.textSecondary,
+              color: theme.colors.text,
               //border: `1px solid ${theme.colors.border}`,
               transition: "all 0.2s ease",
               "&:hover": {
@@ -458,9 +458,10 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
             </Tooltip>
           </Box>
           <Button
+            onClick={() => scrollToSection("contact")}
             sx={{
               backgroundColor: theme.colors.primary,
-              color: "white",
+              color: theme.colors.invertedColorText,
               px: 4,
               py: 1.5,
               fontSize: "1rem",
@@ -808,6 +809,7 @@ export function AboutPage({ activeSection, onSectionChange, onScrollToSectionRef
           ))}
         </Box>
       </Box>
+
       {/* Projects 块 */}
       <Box
         id="projects"
